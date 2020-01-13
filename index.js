@@ -69,7 +69,7 @@ server.post("/api/users/", (req, res) => {
   const userData = req.body;
   Users.insert(userData)
     .then(user => {
-      res.status(201).json(user);
+      res.status(201).json(userData);
     })
     .catch(err => {
       if (!userData.bio || !userData.name) {
@@ -90,7 +90,7 @@ server.put("/api/users/:id", (req, res) => {
   const id = req.params.id;
   Users.update(id, editedInfo)
     .then(user => {
-      res.status(200).json(user);
+      res.status(200).json(editedInfo);
     })
     .catch(err => {
       if (!Users.findById(id)) {
@@ -102,11 +102,9 @@ server.put("/api/users/:id", (req, res) => {
           .status(400)
           .json({ errorMessage: "Please provide name and bio for the user." });
       } else {
-        res
-          .status(500)
-          .json({
-            errorMessage: "The user information could not be modified."
-          });
+        res.status(500).json({
+          errorMessage: "The user information could not be modified."
+        });
       }
     });
 });
